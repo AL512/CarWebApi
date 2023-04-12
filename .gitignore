@@ -1,0 +1,7 @@
+﻿/.vs
+/CarWebApi/bin
+/CarWebApi/obj
+/CarWebApi/appsettings.Development.json
+/CarWebApi.Test/bin
+/CarWebApi.Test/obj
+/CarWebApi.Test/appsettings.Development.json
