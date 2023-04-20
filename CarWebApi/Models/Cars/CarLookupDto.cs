@@ -1,5 +1,4 @@
 ﻿using CarWebApi.Mappings;
-using CarWebApi.Models.Base;
 
 namespace CarWebApi.Models.Cars
 {
@@ -20,7 +19,6 @@ namespace CarWebApi.Models.Cars
         /// Маппинг
         /// </summary>
         /// <param name="profile">Профиль маппинга</param>
-
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Car, CarLookupDto>()

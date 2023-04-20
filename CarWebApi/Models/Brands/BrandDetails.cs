@@ -31,7 +31,7 @@ namespace CarWebApi.Models.Brands
             profile.CreateMap<Brand, BrandDetails>()
                 .ForMember(brandDetails => brandDetails.Id, opt => opt.MapFrom(brand => brand.Id))
                 .ForMember(brandDetails => brandDetails.Name, opt => opt.MapFrom(brand => brand.Name))
-                .ForMember(brandDetails => brandDetails.CountryId, opt => opt.MapFrom(brand => brand.Country.Id))
+                .ForMember(brandDetails => brandDetails.CountryId, opt => opt.MapFrom(brand => brand.CountryId))
                 .ForMember(brandDetails => brandDetails.CreationDate, opt => opt.MapFrom(brand => brand.CreationDate))
                 .ForMember(brandDetails => brandDetails.ModifiedDate, opt => opt.MapFrom(brand => brand.ModifiedDate));
         }

@@ -50,7 +50,7 @@ namespace CarWebApi.Models.Cars
             profile.CreateMap<Car, CarDetails>()
                 .ForMember(carDetails => carDetails.Id, opt => opt.MapFrom(car => car.Id))
                 .ForMember(carDetails => carDetails.Name, opt => opt.MapFrom(car => car.Name))
-                .ForMember(carDetails => carDetails.BrandId, opt => opt.MapFrom(car => car.Brand.Id))
+                .ForMember(carDetails => carDetails.BrandId, opt => opt.MapFrom(car => car.BrandId))
                 .ForMember(carDetails => carDetails.Pow, opt => opt.MapFrom(car => car.Pow))
                 .ForMember(carDetails => carDetails.Long, opt => opt.MapFrom(car => car.Long))
                 .ForMember(carDetails => carDetails.Price, opt => opt.MapFrom(car => car.Price))

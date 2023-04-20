@@ -17,6 +17,10 @@ namespace CarWebApi.Models.Cars
         /// </summary>
         public virtual Brand Brand { get; set; }
         /// <summary>
+        /// ИД марка
+        /// </summary>
+        public virtual Guid BrandId { get; set; }
+        /// <summary>
         /// Мощность двигателя
         /// </summary>
         public int Pow { get; set; }

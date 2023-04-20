@@ -35,7 +35,6 @@ namespace CarWebApi.CQRS.Queries.Brands
         public async Task<BrandDetails> Handle(GetBrandDetailsQuery request, CancellationToken cancellationToken)
         {
             var entity = await UnitOfWork.Brands.GetById(request.Id, cancellationToken);
-
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Brand), request.Id);
