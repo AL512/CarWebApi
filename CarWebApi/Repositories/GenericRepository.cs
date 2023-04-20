@@ -26,9 +26,13 @@ namespace CarWebApi.Repositories
         {
             _context.Set<T>().AddRange(entities);
         }
-        public async Task<IEnumerable<T>> GetAll(CancellationToken cancellationToken)
+        public async Task<IQueryable<T>> GetAll(CancellationToken cancellationToken)
         {
-            return _context.Set<T>().ToList();
+            return _context.Set<T>();
+        }
+        public IQueryable<T> GetAll()
+        {
+            return _context.Set<T>();
         }
         public async Task<T> GetById(Guid id, CancellationToken cancellationToken)
         {

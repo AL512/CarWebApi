@@ -12,13 +12,18 @@
         /// <param name="id">ИД</param>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Запрашиваемый объект</returns>
-        Task<T> GetById(Guid id, CancellationToken cancellationToken);
+        Task<T> GetById(Guid id, CancellationToken cancellationToken = default);
         /// <summary>
         /// Получить все объекты заданного типа
         /// </summary>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Коллекция объектов</returns>
-        Task<IEnumerable<T>> GetAll(CancellationToken cancellationToken);
+        Task<IQueryable<T>> GetAll(CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Получить все объекты заданного типа
+        /// </summary>
+        /// <returns>Коллекция объектов</returns>
+        IQueryable<T> GetAll();
         /// <summary>
         /// Добавить объект
         /// </summary>

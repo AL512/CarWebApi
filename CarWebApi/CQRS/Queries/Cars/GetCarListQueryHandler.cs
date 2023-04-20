@@ -36,13 +36,11 @@ namespace CarWebApi.CQRS.Queries.Cars
         /// <returns>Список автомобилей</returns>
         public async Task<CarList> Handle(GetCarListQuery request, CancellationToken cancellationToken)
         {
-            var carEnumer = await UnitOfWork.Cars.GetAll(cancellationToken);
+            var carQuery = await UnitOfWork.Cars.GetAll()
+                .ProjectTo<CarLookupDto>(Mapper.ConfigurationProvider) // Расширение из AutoMapper
+                .ToListAsync(cancellationToken);
 
-            var CardList = carEnumer.AsQueryable()
-                    .ProjectTo<CarLookupDto>(Mapper.ConfigurationProvider)
-                    .ToList();
-
-            return new CarList { Cars = CardList };
+            return new CarList { Cars = carQuery };
         }
     }
 }

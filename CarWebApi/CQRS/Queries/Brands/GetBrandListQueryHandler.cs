@@ -1,6 +1,7 @@
 ﻿using AutoMapper.QueryableExtensions;
 using CarWebApi.Models.Brands;
 using CarWebApi.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarWebApi.CQRS.Queries.Brands
 {
@@ -27,20 +28,18 @@ namespace CarWebApi.CQRS.Queries.Brands
             (UnitOfWork, Mapper) = (unitOfWork, mapper);
 
         /// <summary>
-        /// Логика обработки запроса списка марок авто
+        /// Логика обработки запроса списка марок автомобилей
         /// </summary>
         /// <param name="request">Ответ на запрос</param>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Список марок автомобиля</returns>
         public async Task<BrandList> Handle(GetBrandListQuery request, CancellationToken cancellationToken)
         {
-            var brandEnumer = await UnitOfWork.Brands.GetAll(cancellationToken);
+            var brandQuery = await UnitOfWork.Brands.GetAll()
+                .ProjectTo<BrandLookupDto>(Mapper.ConfigurationProvider) // Расширение из AutoMapper
+                .ToListAsync(cancellationToken);
 
-            var brandList = brandEnumer.AsQueryable()
-                    .ProjectTo<BrandLookupDto>(Mapper.ConfigurationProvider)
-                    .ToList();
-
-            return new BrandList { Brands = brandList };
+            return new BrandList { Brands = brandQuery };
         }
     }
 }

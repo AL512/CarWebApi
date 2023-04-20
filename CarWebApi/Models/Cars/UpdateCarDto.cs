@@ -1,6 +1,7 @@
 ﻿using CarWebApi.CQRS.Commands.Cars;
 using CarWebApi.Mappings;
 using CarWebApi.Models.Base;
+using CarWebApi.Models.Brands;
 
 namespace CarWebApi.Models.Cars
 {
@@ -17,6 +18,10 @@ namespace CarWebApi.Models.Cars
         /// ИД марки автомобиля
         /// </summary>
         public Guid BrandId { get; set; }
+        /// <summary>
+        /// Марка автомобиля
+        /// </summary>
+        public Brand Brand { get; set; }
         /// <summary>
         /// Мощность двигателя
         /// </summary>
@@ -39,7 +44,7 @@ namespace CarWebApi.Models.Cars
             profile.CreateMap<UpdateCarDto, UpdateCarCommand>()
                 .ForMember(carCommand => carCommand.Id, opt => opt.MapFrom(carDto => carDto.Id))
                 .ForMember(carCommand => carCommand.Name, opt => opt.MapFrom(carDto => carDto.Name))
-                .ForMember(carCommand => carCommand.Brand.Id, opt => opt.MapFrom(carDto => carDto.BrandId))
+                .ForMember(carCommand => carCommand.Brand, opt => opt.MapFrom(carDto => carDto.Brand))
                 .ForMember(carCommand => carCommand.Pow, opt => opt.MapFrom(carDto => carDto.Pow))
                 .ForMember(carCommand => carCommand.Long, opt => opt.MapFrom(carDto => carDto.Long))
                 .ForMember(carCommand => carCommand.Price, opt => opt.MapFrom(carDto => carDto.Price));
