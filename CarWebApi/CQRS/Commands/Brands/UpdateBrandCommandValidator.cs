@@ -14,7 +14,6 @@ namespace CarWebApi.CQRS.Commands.Brands
         {
             RuleFor(updateBrandCommand => updateBrandCommand.Id).NotEqual(Guid.Empty);
             RuleFor(updateBrandCommand => updateBrandCommand.Name).NotEmpty();
-            RuleFor(updateBrandCommand => updateBrandCommand.Country).NotEmpty();
         }
     }
 }

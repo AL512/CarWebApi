@@ -41,6 +41,7 @@ namespace CarWebApi.CQRS.Commands.Brands
                 {
 
                     entity.Name = request.Name;
+                    entity.CountryId = request.CountryId;
                     entity.Country = request.Country;
 
                     entity.ModifiedDate = DateTime.Now;

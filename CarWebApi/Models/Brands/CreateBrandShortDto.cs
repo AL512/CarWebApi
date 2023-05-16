@@ -1,14 +1,13 @@
 ﻿using CarWebApi.CQRS.Commands.Brands;
 using CarWebApi.Mappings;
-using CarWebApi.Models.Countries;
 using System.ComponentModel.DataAnnotations;
 
 namespace CarWebApi.Models.Brands
 {
     /// <summary>
-    /// Модель данных марки автомобиля от клиента
+    /// Короткая форма модели данных марки автомобиля от клиента
     /// </summary>
-    public class CreateBrandDto : IMapWith<CreateBrandCommand>
+    public class CreateBrandShortDto : IMapWith<CreateBrandCommand>
     {
         /// <summary>
         /// Название
@@ -16,18 +15,18 @@ namespace CarWebApi.Models.Brands
         [Required]
         public string Name { get; set; }
         /// <summary>
-        /// Страна производитель
-        /// </summary>
-        public Country Country { get; set; }
+        /// ИД страны производителя
+        /// </summary>и
+        public Guid CountryId { get; set; }
         /// <summary>
         /// Маппинг модели марки автомобиля на команду создания
         /// </summary>
         /// <param name="profile"></param>
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CreateBrandDto, CreateBrandCommand>()
+            profile.CreateMap<CreateBrandShortDto, CreateBrandCommand>()
                 .ForMember(brandCommand => brandCommand.Name, opt => opt.MapFrom(brandDto => brandDto.Name))
-                .ForMember(brandCommand => brandCommand.Country, opt => opt.MapFrom(brandDto => brandDto.Country));
+                .ForMember(brandCommand => brandCommand.CountryId, opt => opt.MapFrom(brandDto => brandDto.CountryId));
         }
     }
 }

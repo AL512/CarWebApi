@@ -3,7 +3,7 @@
 namespace CarWebApi.CQRS.Commands.Brands
 {
     /// <summary>
-    /// Команда обновления марки авто
+    /// Команда обновления марки автомобиля
     /// </summary>
     public class UpdateBrandCommand : IRequest
     {
@@ -15,6 +15,10 @@ namespace CarWebApi.CQRS.Commands.Brands
         /// Название марки авто
         /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// ИД страны производителя
+        /// </summary>
+        public Guid CountryId { get; set; }
         /// <summary>
         /// Страна производитель
         /// </summary>

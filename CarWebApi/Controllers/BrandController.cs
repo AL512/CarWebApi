@@ -75,6 +75,24 @@ namespace CarWebApi.Controllers
         }
 
         /// <summary>
+        /// Создать марки автомобиля в короткой форме
+        /// </summary>
+        /// <param name="createBrandShortDto">Короткая форма модели данных марки автомобиля</param>
+        /// <returns>ИД марки автомобиля</returns>
+        /// <response code="201">Success</response>
+        /// <response code="401">если пользователь не авторизован</response>
+        //[HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [HttpPost("short")]
+        public async Task<ActionResult<Guid>> CreateShort([FromBody] CreateBrandShortDto createBrandShortDto)
+        {
+            var command = Mapper.Map<CreateBrandCommand>(createBrandShortDto);
+            var brandId = await Mediator.Send(command);
+            return Ok(brandId);
+        }
+
+        /// <summary>
         /// Обновить марку автомобиля
         /// </summary>
         /// <param name="updateBrandDto">Модель обновления марки автомобиля от клиента</param>
@@ -87,6 +105,23 @@ namespace CarWebApi.Controllers
         public async Task<IActionResult> Update([FromBody] UpdateBrandDto updateBrandDto)
         {
             var command = Mapper.Map<UpdateBrandCommand>(updateBrandDto);
+            await Mediator.Send(command);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Обновить марку автомобиля в короткой форме
+        /// </summary>
+        /// <param name="updateBrandShortDto">Модель обновления марки автомобиля от клиента</param>
+        /// <returns>Ничего не возвращаем</returns>
+        /// <response code="204">Success</response>
+        /// <response code="401">если пользователь не авторизован</response>
+        [HttpPut("Short")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> UpdateShort([FromBody] UpdateBrandShortDto updateBrandShortDto)
+        {
+            var command = Mapper.Map<UpdateBrandCommand>(updateBrandShortDto);
             await Mediator.Send(command);
             return NoContent();
         }

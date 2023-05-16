@@ -20,7 +20,7 @@ namespace CarWebApi.Models.Brands
         /// <summary>
         /// ИД страна производителя
         /// </summary>
-        public virtual Guid CountryId { get; set; }
+        public virtual Guid? CountryId { get; set; }
         /// <summary>
         /// Список автомобилей этой марки
         /// </summary>

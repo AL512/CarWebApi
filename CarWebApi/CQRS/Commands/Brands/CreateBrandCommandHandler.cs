@@ -32,6 +32,7 @@ namespace CarWebApi.CQRS.Commands.Brands
             {
                 Id = Guid.NewGuid(),
                 Name = request.Name,
+                CountryId = request.CountryId,
                 Country = request.Country,
                 CreationDate = DateTime.Now,
                 ModifiedDate = null,

@@ -6,9 +6,9 @@ using CarWebApi.Models.Countries;
 namespace CarWebApi.Models.Brands
 {
     /// <summary>
-    /// Модель обновления марки автомобиля от клиента
+    /// Короткая форма модели обновления марки автомобиля от клиента
     /// </summary>
-    public class UpdateBrandDto : IMapWith<UpdateBrandCommand>
+    public class UpdateBrandShortDto : IMapWith<UpdateBrandCommand>
     {
         /// <summary>
         /// Основной идентификатор
@@ -19,19 +19,19 @@ namespace CarWebApi.Models.Brands
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// Страна производитель
+        /// ИД страны производителя
         /// </summary>
-        public Country Country { get; set; }
+        public Guid CountryId { get; set; }
         /// <summary>
         /// Маппинг модели марки автомобиля на команду создания
         /// </summary>
         /// <param name="profile"></param>
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<UpdateBrandDto, UpdateBrandCommand>()
+            profile.CreateMap<UpdateBrandShortDto, UpdateBrandCommand>()
                 .ForMember(brandCommand => brandCommand.Id, opt => opt.MapFrom(brandDto => brandDto.Id))
                 .ForMember(brandCommand => brandCommand.Name, opt => opt.MapFrom(brandDto => brandDto.Name))
-                .ForMember(brandCommand => brandCommand.Country, opt => opt.MapFrom(brandDto => brandDto.Country));
+                .ForMember(brandCommand => brandCommand.CountryId, opt => opt.MapFrom(brandDto => brandDto.CountryId));
         }
     }
 }

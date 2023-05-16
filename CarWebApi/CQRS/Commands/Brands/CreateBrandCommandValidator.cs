@@ -12,11 +12,7 @@ namespace CarWebApi.CQRS.Commands.Brands
         /// </summary>
         public CreateBrandCommandValidator()
         {
-            RuleFor(createBrandCommand =>
-                createBrandCommand.Name).NotEmpty();
-            RuleFor(createBrandCommand =>
-                createBrandCommand.Country).NotEmpty();
-
+            RuleFor(createBrandCommand => createBrandCommand.Name).NotEmpty();
         }
     }
 }

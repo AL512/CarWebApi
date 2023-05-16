@@ -38,6 +38,36 @@ namespace CarWebApi.Test.Brands.Commands
             Assert.NotNull(result);
             Assert.Equal(brandName, result.Name);
             Assert.Equal(country.Name, result.Country.Name);
+        }
+
+        /// <summary>
+        /// Проверяет успешное создание марки автомобиля в короткой форме
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task CreateBrandShortCommandHandler_Success()
+        {
+            // Arrange
+            var handler = new CreateBrandCommandHandler(UnitOfWork);
+
+            string brandName = "Genesis";
+
+            // Act
+            var brandId = await handler.Handle(
+                new CreateBrandCommand
+                {
+                    Name = brandName,
+                    CountryId = СarApiContextFactory.CountryIdForUpdate,
+                },
+                CancellationToken.None);
+
+            var result = await UnitOfWork.Brands.GetById(brandId, CancellationToken.None);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.Equal(brandName, result.Name);
+            Assert.Equal(СarApiContextFactory.CountryIdForUpdate, result.Country.Id);
+            Assert.Equal("Korea", result.Country.Name);
 
         }
 

@@ -1,6 +1,5 @@
 using CarWebApi;
 using CarWebApi.Database;
-using CarWebApi.Database;
 using CarWebApi.Mappings;
 using System.Reflection;
 

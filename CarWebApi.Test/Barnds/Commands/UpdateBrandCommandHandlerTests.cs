@@ -2,14 +2,13 @@
 using CarWebApi.Exceptions;
 using CarWebApi.Models.Countries;
 using CarWebApi.Test.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarWebApi.Test.Brands.Commands
 {
     /// <summary>
     /// Тестирование обработчика команд обновления марки автомобиля
     /// </summary>
-    public class UpdateBrandCommandHandlerTests : TestCommandBase
+    public class UpdateBrandCommandHandlerTests : TestCommandBase   
     {
         /// <summary>
         /// Проверяет успешное обновления марки автомобиля
@@ -38,6 +37,34 @@ namespace CarWebApi.Test.Brands.Commands
             Assert.Equal(СarApiContextFactory.BrandIdForUpdate, brand.Id);
             Assert.Equal(updateName, brand.Name);
             Assert.True(brand.Country.Name.Equals(updateCountry.Name));
+        }
+        /// <summary>
+        /// Проверяет успешное обновления марки автомобиля в короткой форме
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task UpdateBrandShortCommandHandler_Success()
+        {
+            // Arrange
+            var handler = new UpdateBrandCommandHandler(UnitOfWork);
+            var updateName = "Mastretta MXT";
+            
+            // Act
+            await handler.Handle(
+                new UpdateBrandCommand
+                {
+                    Id = СarApiContextFactory.BrandIdForUpdate,
+                    Name = updateName,
+                    CountryId = СarApiContextFactory.CountryIdForUpdate,
+                }, CancellationToken.None);
+
+            // Assert
+            var brand = await UnitOfWork.Brands.GetById(СarApiContextFactory.BrandIdForUpdate, CancellationToken.None);
+            Assert.NotNull(brand);
+            Assert.Equal(СarApiContextFactory.BrandIdForUpdate, brand.Id);
+            Assert.Equal(updateName, brand.Name);
+            Assert.Equal(СarApiContextFactory.CountryIdForUpdate, brand.Country.Id);
+            Assert.Equal("Korea", brand.Country.Name);
         }
         /// <summary>
         /// Проверяет появления исключения "NotFoundException"
