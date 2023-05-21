@@ -13,14 +13,6 @@ namespace CarWebApi.Models.Cars
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// Марка
-        /// </summary>
-        public virtual Brand Brand { get; set; }
-        /// <summary>
-        /// ИД марка
-        /// </summary>
-        public virtual Guid BrandId { get; set; }
-        /// <summary>
         /// Мощность двигателя
         /// </summary>
         public int Pow { get; set; }
@@ -32,5 +24,13 @@ namespace CarWebApi.Models.Cars
         /// Цена
         /// </summary>
         public decimal Price { get; set; }
+        /// <summary>
+        /// ИД марка
+        /// </summary>
+        public Guid? BrandId { get; set; }
+        /// <summary>
+        /// Марка
+        /// </summary>
+        public virtual Brand Brand { get; set; }
     }
 }
