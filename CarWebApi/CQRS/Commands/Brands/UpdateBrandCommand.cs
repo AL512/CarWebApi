@@ -14,14 +14,14 @@ namespace CarWebApi.CQRS.Commands.Brands
         /// <summary>
         /// Название марки авто
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         /// <summary>
         /// ИД страны производителя
         /// </summary>
-        public Guid CountryId { get; set; }
+        public Guid? CountryId { get; set; } = null;
         /// <summary>
         /// Страна производитель
         /// </summary>
-        public Country Country { get; set; }
+        public Country Country { get; set; } = null;
     }
 }

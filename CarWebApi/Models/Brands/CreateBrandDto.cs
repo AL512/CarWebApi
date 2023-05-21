@@ -16,9 +16,9 @@ namespace CarWebApi.Models.Brands
         [Required]
         public string Name { get; set; }
         /// <summary>
-        /// Страна производитель
-        /// </summary>
-        public Country Country { get; set; }
+        /// ИД страны производителя
+        /// </summary>и
+        public Guid CountryId { get; set; }
         /// <summary>
         /// Маппинг модели марки автомобиля на команду создания
         /// </summary>
@@ -27,7 +27,7 @@ namespace CarWebApi.Models.Brands
         {
             profile.CreateMap<CreateBrandDto, CreateBrandCommand>()
                 .ForMember(brandCommand => brandCommand.Name, opt => opt.MapFrom(brandDto => brandDto.Name))
-                .ForMember(brandCommand => brandCommand.Country, opt => opt.MapFrom(brandDto => brandDto.Country));
+                .ForMember(brandCommand => brandCommand.CountryId, opt => opt.MapFrom(brandDto => brandDto.CountryId));
         }
     }
 }

@@ -22,6 +22,6 @@ namespace CarWebApi.CQRS.Commands.Brands
         /// <summary>
         /// Страна производитель
         /// </summary>
-        public Country Country { get; set; }
+        public Country Country { get; set; } = null;
     }
 }

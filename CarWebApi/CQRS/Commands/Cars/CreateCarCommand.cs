@@ -1,21 +1,20 @@
 ﻿using CarWebApi.Models.Brands;
-using CarWebApi.Models.Cars;
 
 namespace CarWebApi.CQRS.Commands.Cars
 {
     /// <summary>
     /// Команда добавления модели автомобиля
     /// </summary>
+    ///<remarks>
+    /// Марка автомобиля задается свойством 'Brand'
+    /// Если 'Brand' не задан, то привязка происходит по 'BrandId'
+    /// </remarks>
     public class CreateCarCommand : IRequest<Guid>
     {
         /// <summary>
         /// Название
         /// </summary>
         public string Name { get; set; } = null!;
-        /// <summary>
-        /// ИД марки
-        /// </summary>
-        public Brand Brand { get; set; } = null!;
         /// <summary>
         /// Мощность двигателя
         /// </summary>
@@ -28,5 +27,13 @@ namespace CarWebApi.CQRS.Commands.Cars
         /// Цена
         /// </summary>
         public decimal Price { get; set; }
+        /// <summary>
+        /// ИД марки
+        /// </summary>
+        public Guid? BrandId { get; set; } = null;
+        /// <summary>
+        /// Марка
+        /// </summary>
+        public Brand Brand { get; set; } = null;
     }
 }

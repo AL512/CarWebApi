@@ -54,6 +54,44 @@ namespace CarWebApi.Test.Cars.Commands
             Assert.True(car.Brand.Country.Name.Equals(updateCountry.Name));
         }
         /// <summary>
+        /// Проверяет успешное обновления автомобиля
+        /// с указанием ИД марки автомобиля
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task UpdateCarByBrandIdCommandHandler_Success()
+        {
+            // Arrange
+            var handler = new UpdateCarCommandHandler(UnitOfWork);
+
+            string updateName = "Ceed";
+            int updatePow = 128;
+            int updateLong = 4340;
+            decimal updatePrice = 1039;
+
+            // Act
+            await handler.Handle(
+                new UpdateCarCommand
+                {
+                    Id = СarApiContextFactory.CarIdForUpdate,
+                    Name = updateName,
+                    BrandId = СarApiContextFactory.BrandIdForUpdate,
+                    Pow = updatePow,
+                    Long = updateLong,
+                    Price = updatePrice,
+                }, CancellationToken.None);
+
+            // Assert
+            var car = await UnitOfWork.Cars.GetById(СarApiContextFactory.CarIdForUpdate, CancellationToken.None);
+            Assert.NotNull(car);
+            Assert.Equal(СarApiContextFactory.CarIdForUpdate, car.Id);
+            Assert.Equal(updateName, car.Name);
+            Assert.Equal(updatePow, car.Pow);
+            Assert.Equal(updateLong, car.Long);
+            Assert.Equal(updatePrice, car.Price);
+            Assert.Equal(СarApiContextFactory.BrandIdForUpdate, car.Brand.Id);
+        }
+        /// <summary>
         /// Проверяет появления исключения "NotFoundException"
         /// при обновлении автомобиля с ID, которого нет в БД
         /// </summary>

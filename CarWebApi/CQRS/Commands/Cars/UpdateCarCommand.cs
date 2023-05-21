@@ -1,5 +1,4 @@
 ﻿using CarWebApi.Models.Brands;
-using CarWebApi.Models.Cars;
 
 namespace CarWebApi.CQRS.Commands.Cars
 {
@@ -15,11 +14,7 @@ namespace CarWebApi.CQRS.Commands.Cars
         /// <summary>
         /// Название авто
         /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// ИД марки авто
-        /// </summary>
-        public Brand Brand { get; set; }
+        public string Name { get; set; } = null!;
         /// <summary>
         /// Мощность двигателя
         /// </summary>
@@ -32,5 +27,13 @@ namespace CarWebApi.CQRS.Commands.Cars
         /// Цена авто
         /// </summary>
         public decimal Price { get; set; }
+        /// <summary>
+        /// ИД марки автомобиля
+        /// </summary>
+        public Guid? BrandId { get; set; } = null;
+        /// <summary>
+        /// Марка автомобиля
+        /// </summary>
+        public Brand Brand { get; set; } = null;
     }
 }

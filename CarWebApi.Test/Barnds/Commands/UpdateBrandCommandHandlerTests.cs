@@ -39,11 +39,12 @@ namespace CarWebApi.Test.Brands.Commands
             Assert.True(brand.Country.Name.Equals(updateCountry.Name));
         }
         /// <summary>
-        /// Проверяет успешное обновления марки автомобиля в короткой форме
+        /// Проверяет успешное обновления марки автомобиля 
+        /// с указанием ИД страны производителя
         /// </summary>
         /// <returns></returns>
         [Fact]
-        public async Task UpdateBrandShortCommandHandler_Success()
+        public async Task UpdateBrandByCountryIdCommandHandler_Success()
         {
             // Arrange
             var handler = new UpdateBrandCommandHandler(UnitOfWork);

@@ -1,8 +1,6 @@
-﻿using CarWebApi.Database;
-using CarWebApi.Exceptions;
+﻿using CarWebApi.Exceptions;
 using CarWebApi.Models.Cars;
 using CarWebApi.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarWebApi.CQRS.Commands.Cars
 {
@@ -43,6 +41,7 @@ namespace CarWebApi.CQRS.Commands.Cars
                 try
                 {
                     entity.Name = request.Name;
+                    entity.BrandId = request.BrandId;
                     entity.Brand = request.Brand;
                     entity.Pow = request.Pow;
                     entity.Long = request.Long;

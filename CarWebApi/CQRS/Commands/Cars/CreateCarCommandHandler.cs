@@ -1,5 +1,4 @@
-﻿using CarWebApi.Database;
-using CarWebApi.Models.Cars;
+﻿using CarWebApi.Models.Cars;
 using CarWebApi.Repositories.Interfaces;
 
 namespace CarWebApi.CQRS.Commands.Cars
@@ -33,6 +32,7 @@ namespace CarWebApi.CQRS.Commands.Cars
             {
                 Id = Guid.NewGuid(),
                 Name = request.Name,
+                BrandId = request.BrandId,
                 Brand = request.Brand,
                 Long = request.Long,
                 Pow = request.Pow,

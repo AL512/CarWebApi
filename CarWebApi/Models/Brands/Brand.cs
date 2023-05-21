@@ -14,13 +14,13 @@ namespace CarWebApi.Models.Brands
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// ИД страна производителя
+        /// </summary>
+        public Guid? CountryId { get; set; }
+        /// <summary>
         /// Страна производитель
         /// </summary>
         public virtual Country Country { get; set; }
-        /// <summary>
-        /// ИД страна производителя
-        /// </summary>
-        public virtual Guid? CountryId { get; set; }
         /// <summary>
         /// Список автомобилей этой марки
         /// </summary>
