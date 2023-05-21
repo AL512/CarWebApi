@@ -41,23 +41,25 @@ namespace CarWebApi.Test.Brands.Commands
         }
 
         /// <summary>
-        /// Проверяет успешное создание марки автомобиля в короткой форме
+        /// Проверяет успешное создание марки автомобиля 
+        /// с указанием ИД страны производителя
         /// </summary>
         /// <returns></returns>
         [Fact]
-        public async Task CreateBrandShortCommandHandler_Success()
+        public async Task CreateBrandByCountryIdCommandHandler_Success()
         {
             // Arrange
             var handler = new CreateBrandCommandHandler(UnitOfWork);
 
-            string brandName = "Genesis";
+            string brandName = "GAZ";
+            Guid countryId = Guid.Parse("C0D63113-83D5-4443-A303-07250D2E0F75");
 
             // Act
             var brandId = await handler.Handle(
                 new CreateBrandCommand
                 {
                     Name = brandName,
-                    CountryId = СarApiContextFactory.CountryIdForUpdate,
+                    CountryId = countryId,
                 },
                 CancellationToken.None);
 
@@ -66,9 +68,7 @@ namespace CarWebApi.Test.Brands.Commands
             //Assert
             Assert.NotNull(result);
             Assert.Equal(brandName, result.Name);
-            Assert.Equal(СarApiContextFactory.CountryIdForUpdate, result.Country.Id);
-            Assert.Equal("Korea", result.Country.Name);
-
+            Assert.Equal(countryId, result.Country.Id);
         }
 
     }
