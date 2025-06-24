@@ -7,3 +7,6 @@
 /CarWebApi.Test/obj
 /CarWebApi.Test/appsettings.Development.json
 /TestResults/bf97eb11-731b-4077-9a6c-d3d4cd30c1af
+/CarWebApi/CarWebApi.db
+/CarWebApi/CarWebApi.db-shm
+/CarWebApi/CarWebApi.db-wal

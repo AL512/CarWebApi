@@ -23,7 +23,8 @@ namespace CarWebApi
             var connectionString = configuration["DbConnection"];
             services.AddDbContext<CarApiDbContext>(options =>
             {
-                options.UseSqlServer(connectionString);
+                // options.UseSqlServer(connectionString);
+                options.UseSqlite(connectionString);
             });
 
             //Репозитории
