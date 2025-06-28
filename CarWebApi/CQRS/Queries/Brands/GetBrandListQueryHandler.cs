@@ -3,43 +3,24 @@ using CarWebApi.Models.Brands;
 using CarWebApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarWebApi.CQRS.Queries.Brands
+namespace CarWebApi.CQRS.Queries.Brands;
+
+/// <summary>
+/// Обработчик запроса списка марок автомобиля
+/// </summary>
+public class GetBrandListQueryHandler(IUnitOfWorkCarApi unitOfWork, IMapper mapper)
+    : IRequestHandler<GetBrandListQuery, BrandList>
 {
-    /// <summary>
-    /// Обработчик запроса списка марок автомобиля
-    /// </summary>
-    public class GetBrandListQueryHandler : IRequestHandler<GetBrandListQuery, BrandList>
+    public async Task<BrandList> Handle(GetBrandListQuery request, CancellationToken cancellationToken)
     {
-        /// <summary>
-        /// Менеджер репозиториев
-        /// </summary>
-        private readonly IUnitOfWork UnitOfWork;
-        /// <summary>
-        /// Маппер
-        /// </summary>
-        private readonly IMapper Mapper;
+        var repository = unitOfWork.GetRepository<Brand>();
+        var entityEnumer = await repository.GetAllAsync(cancellationToken);
+        
+        var brandQuery = await entityEnumer
+            .AsQueryable()
+            .ProjectTo<BrandLookupDto>(mapper.ConfigurationProvider) // Расширение из AutoMapper
+            .ToListAsync(cancellationToken);
 
-        /// <summary>
-        /// Конструктор обработчика запроса списка марок автомобиля
-        /// </summary>
-        /// <param name="unitOfWork">Менеджер репозиториев</param>
-        /// <param name="mapper">Маппер</param>
-        public GetBrandListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) =>
-            (UnitOfWork, Mapper) = (unitOfWork, mapper);
-
-        /// <summary>
-        /// Логика обработки запроса списка марок автомобилей
-        /// </summary>
-        /// <param name="request">Ответ на запрос</param>
-        /// <param name="cancellationToken">Токен отмены</param>
-        /// <returns>Список марок автомобиля</returns>
-        public async Task<BrandList> Handle(GetBrandListQuery request, CancellationToken cancellationToken)
-        {
-            var brandQuery = await UnitOfWork.Brands.GetAll()
-                .ProjectTo<BrandLookupDto>(Mapper.ConfigurationProvider) // Расширение из AutoMapper
-                .ToListAsync(cancellationToken);
-
-            return new BrandList { Brands = brandQuery };
-        }
+        return new BrandList { Brands = brandQuery };
     }
 }
