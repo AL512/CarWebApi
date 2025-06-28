@@ -1,55 +1,34 @@
-﻿using CarWebApi.Database;
-using CarWebApi.Exceptions;
+﻿using CarWebApi.Exceptions;
 using CarWebApi.Models.Countries;
 using CarWebApi.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
-namespace CarWebApi.CQRS.Commands.Countries
+namespace CarWebApi.CQRS.Commands.Countries;
+
+/// <summary>
+/// Обработчик команды удаления страны производителя
+/// </summary>
+public class DeleteCountryCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteCountryCommand>
 {
-    /// <summary>
-    /// Обработчик команды удаления страны производителя
-    /// </summary>
-    public class DeleteCountryCommandHandler : IRequestHandler<DeleteCountryCommand>
+    public async Task Handle(DeleteCountryCommand request, CancellationToken cancellationToken)
     {
-        /// <summary>
-        /// Менеджер репозиториев
-        /// </summary>
-        private readonly IUnitOfWork UnitOfWork;
-
-        /// <summary>
-        /// Конструктор обработчика команды удаления страны производителя
-        /// </summary>
-        /// <param name="unitOfWork">Менеджер репозиториев</param>
-        public DeleteCountryCommandHandler(IUnitOfWork unitOfWork) =>
-            UnitOfWork = unitOfWork;
-
-        /// <summary>
-        /// Логика обработки команды DeleteCountryCommandHandler
-        /// </summary>
-        /// <param name="request">Ответ на команду</param>
-        /// <param name="cancellationToken">Токен отмены</param>
-        /// <returns>Пустой ответ</returns>
-        public async Task Handle(DeleteCountryCommand request, CancellationToken cancellationToken)
+        var repository = unitOfWork.GetRepository<Country>();
+        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
+        if (entity != null)
         {
-            var entity = await UnitOfWork.Countries.GetById(request.Id, cancellationToken);
-            if (entity == null)
+            try
             {
-                throw new NotFoundException(nameof(Country), request.Id);
+                await repository.DeleteAsync(entity, cancellationToken);
+                await unitOfWork.CommitAsync(cancellationToken);
             }
-            using (var transaction = UnitOfWork.BeginTransaction())
+            catch (Exception e)
             {
-                try
-                {
-                    UnitOfWork.Countries.Remove(entity);
-                    UnitOfWork.Save();
-                    UnitOfWork.CommitTransaction(transaction);
-                }
-                catch(Exception ex)
-                {
-                    UnitOfWork.RollbackTransaction(transaction);
-                    throw ex;
-                }
+                await unitOfWork.CommitAsync(cancellationToken);
+                throw;
             }
+        }
+        else
+        {
+            throw new NotFoundException(nameof(Country), request.Id);
         }
     }
 }

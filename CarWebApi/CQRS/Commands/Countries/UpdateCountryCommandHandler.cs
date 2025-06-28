@@ -1,59 +1,32 @@
-﻿using CarWebApi.Database;
-using CarWebApi.Exceptions;
-using CarWebApi.Models.Countries;
+﻿using CarWebApi.Models.Countries;
 using CarWebApi.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
+namespace CarWebApi.CQRS.Commands.Countries;
 
-namespace CarWebApi.CQRS.Commands.Countries
+/// <summary>
+/// Обработчик команды изменения страны производителя
+/// </summary>
+public class UpdateCountryCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateCountryCommand>
 {
-    /// <summary>
-    /// Обработчик команды изменения страны производителя
-    /// </summary>
-    public class UpdateCountryCommandHandler : IRequestHandler<UpdateCountryCommand>
+    public async Task Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
     {
-        /// <summary>
-        /// Менеджер репозиториев
-        /// </summary>
-        private readonly IUnitOfWork UnitOfWork;
-
-        /// <summary>
-        /// Конструктор обработчика команды изменения страны производителя
-        /// </summary>
-        /// <param name="unitOfWork">Менеджер репозиториев</param>
-        public UpdateCountryCommandHandler(IUnitOfWork unitOfWork) =>
-            UnitOfWork = unitOfWork;
-
-        /// <summary>
-        /// Логика обработки команды UpdateCountryCommand
-        /// </summary>
-        /// <param name="request">Ответ на команду</param>
-        /// <param name="cancellationToken">Токен отмены задачи</param>
-        /// <returns>Пустой ответ</returns>
-        public async Task Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
+        var repository = unitOfWork.GetRepository<Country>();
+        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
+        if (entity != null)
         {
-            var entity = await UnitOfWork.Countries.GetById(request.Id, cancellationToken);
-            if (entity == null)
+            try
             {
-                throw new NotFoundException(nameof(Country), request.Id);
-            }
+                entity.Name = request.Name;
+                entity.ModifiedDate = DateTime.Now;
 
-            using (var transaction = UnitOfWork.BeginTransaction())
+                await repository.UpdateAsync(entity, cancellationToken);
+                await unitOfWork.CommitAsync(cancellationToken);
+            }
+            catch (Exception e)
             {
-                try
-                {
-                    entity.Name = request.Name;
-                    entity.ModifiedDate = DateTime.Now;
-                    UnitOfWork.Save();
-                    UnitOfWork.CommitTransaction(transaction);
-                }
-                catch (Exception ex)
-                {
-                    UnitOfWork.RollbackTransaction(transaction);
-                    throw ex;
-                }
+                Console.WriteLine(e);
+                throw;
             }
         }
-
     }
 }
