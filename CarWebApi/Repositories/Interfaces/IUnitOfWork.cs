@@ -1,42 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿namespace CarWebApi.Repositories.Interfaces;
 
-namespace CarWebApi.Repositories.Interfaces
+public interface IUnitOfWork<TContext> : IDisposable, IAsyncDisposable
 {
-    /// <summary>
-    /// Интерфейс менеджера репозиториев
-    /// </summary>
-    public interface IUnitOfWork : IDisposable
-    {
-        /// <summary>
-        /// Репозиторий стран производителей
-        /// </summary>
-        ICountryRepository Countries { get; }
-        /// <summary>
-        /// Репозиторий марок автомобилей
-        /// </summary>
-        IBrandRepository Brands { get; }
-        /// <summary>
-        /// Репозиторий автомобилей
-        /// </summary>
-        ICarRepository Cars { get; }
-        /// <summary>
-        /// Начало транзакции
-        /// </summary>
-        /// <returns>Транзакция</returns>
-        public IDbContextTransaction BeginTransaction();
-        /// <summary>
-        /// Фиксирует все изменения, внесенные в базу данных в текущей транзакции.
-        /// </summary>
-        /// <param name="transaction">Транзакция</param>
-        public void CommitTransaction(IDbContextTransaction transaction);
-        /// <summary>
-        /// Отменяет все изменения, внесенные в базу данных в текущей транзакции.
-        /// </summary>
-        /// <param name="transaction">Транзакция</param>
-        public void RollbackTransaction(IDbContextTransaction transaction);
-        /// <summary>
-        /// Сохранение данных
-        /// </summary>
-        public int Save();
-    }
+    Task<int> CommitAsync(CancellationToken cancellationToken = default);
+    Task RollbackAsync(CancellationToken cancellationToken = default);
+    IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
 }

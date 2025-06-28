@@ -1,56 +1,65 @@
 ﻿using CarWebApi.Database;
 using CarWebApi.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace CarWebApi.Repositories
+namespace CarWebApi.Repositories;
+
+public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
-    /// <summary>
-    /// Репозиторий задаваемого типа
-    /// </summary>
-    /// <typeparam name="T">Тип репозитория</typeparam>
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    protected readonly DbSet<TEntity> _dbSet;
+
+    public GenericRepository(DbContext context)
     {
-        protected readonly CarApiDbContext _context;
-        /// <summary>
-        /// Репозиторий задаваемого типа
-        /// </summary>
-        /// <param name="context">Контекст репозитория</param>
-        public GenericRepository(CarApiDbContext context)
-        {
-            _context = context;
-        }
-        public void Add(T entity)
-        {
-            _context.Set<T>().Add(entity);
-        }
-        public void AddRange(IEnumerable<T> entities)
-        {
-            _context.Set<T>().AddRange(entities);
-        }
-        public async Task<IQueryable<T>> GetAll(CancellationToken cancellationToken)
-        {
-            return _context.Set<T>();
-        }
-        public IQueryable<T> GetAll()
-        {
-            return _context.Set<T>();
-        }
-        public async Task<T> GetById(Guid id, CancellationToken cancellationToken)
-        {
-            return _context.Set<T>().Find(id);
-        }
-
-        public void Remove(T entity)
-        {
-            _context.Set<T>().Remove(entity);
-        }
-        public void RemoveRange(IEnumerable<T> entities)
-        {
-            _context.Set<T>().RemoveRange(entities);
-        }
-
-        public IQueryable<T> ToIQueryable(IEnumerable<T> values)
-        {
-            return values.AsQueryable();
-        }
+        _dbSet = context.Set<TEntity>();
     }
+
+    public virtual async Task<TEntity?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default)
+        where TId : notnull
+    {
+        return await _dbSet.FindAsync(new object[] { id }, cancellationToken);
+    }
+
+    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
+    }
+
+    public virtual async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
+    {
+        await _dbSet.AddAsync(entity, cancellationToken);
+        return entity;
+    }
+
+    public async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    {
+        await _dbSet.AddRangeAsync(entities, cancellationToken);
+    }
+
+    public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    {
+        _dbSet.Update(entity);
+    }
+
+    public virtual void UpdateRange(IEnumerable<TEntity> entities)
+    {
+        _dbSet.UpdateRange(entities);
+    }
+
+    public virtual async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+    {
+        _dbSet.Remove(entity);
+    }
+
+    public virtual void DeleteRange(IEnumerable<TEntity> entities)
+    {
+        _dbSet.RemoveRange(entities);
+    }
+
+    public virtual async Task<bool> ExistsAsync<TId>(TId id, CancellationToken cancellationToken = default)
+        where TId : notnull
+    {
+        var getByIdResult = await GetByIdAsync(id, cancellationToken) != null;
+        return getByIdResult;
+    }
+    
 }

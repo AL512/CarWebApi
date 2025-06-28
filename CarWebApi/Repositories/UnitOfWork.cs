@@ -1,52 +1,56 @@
-﻿using CarWebApi.Database;
-using CarWebApi.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using CarWebApi.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace CarWebApi.Repositories
+namespace CarWebApi.Repositories;
+
+public class UnitOfWork<TContext>(TContext context, IServiceProvider serviceProvider) : IUnitOfWork<TContext>
+    where TContext : DbContext
 {
-    /// <summary>
-    /// Менеджер репозиториев
-    /// </summary>
-    public class UnitOfWork : IUnitOfWork
+    private bool _disposed;
+
+    public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
     {
-        private readonly CarApiDbContext _context;
-        public ICountryRepository Countries { get; private set; }
-        public IBrandRepository Brands { get; private set; }
-        public ICarRepository Cars { get; private set; }
+        return serviceProvider.GetRequiredService<IGenericRepository<TEntity>>();
+    }
 
-        /// <summary>
-        /// Менеджер репозиториев
-        /// </summary>
-        /// <param name="context">Контекст базы данных</param>
-        public UnitOfWork(CarApiDbContext context)
-        {
-            _context = context;
-            Countries = new CountryRepository(_context);
-            Brands = new BrandRepository(_context);
-            Cars = new CarRepository(_context);
-        }
+    public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
+    {
+        return await context.SaveChangesAsync(cancellationToken);
+    }
 
-        public IDbContextTransaction BeginTransaction()
-        {
-           return _context.Database.BeginTransaction();
-        }
+    public async Task RollbackAsync(CancellationToken cancellationToken = default)
+    {
+        await context.Database.RollbackTransactionAsync(cancellationToken);
+    }
 
-        public void CommitTransaction(IDbContextTransaction transaction)
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAsyncCore();
+        Dispose(false);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
         {
-            transaction.CommitAsync();
-        }
-        public int Save()
-        {          
-            return _context.SaveChanges();
-        }
-        public void Dispose()
-        {
-            _context.Dispose();
+            context.Dispose();
         }
 
-        public void RollbackTransaction(IDbContextTransaction transaction)
+        _disposed = true;
+    }
+
+    private async ValueTask DisposeAsyncCore()
+    {
+        if (!_disposed)
         {
-            transaction?.RollbackAsync();
+            await context.DisposeAsync();
         }
     }
 }
