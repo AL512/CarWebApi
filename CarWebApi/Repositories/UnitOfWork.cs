@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarWebApi.Repositories;
 
-public class UnitOfWork<TContext>(TContext context, IServiceProvider serviceProvider) : IUnitOfWork<TContext>
+public class UnitOfWork<TContext>(TContext context, IServiceProvider serviceProvider) : IUnitOfWorkCarApi
     where TContext : DbContext
 {
     private bool _disposed;

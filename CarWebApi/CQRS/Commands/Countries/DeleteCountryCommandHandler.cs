@@ -7,7 +7,7 @@ namespace CarWebApi.CQRS.Commands.Countries;
 /// <summary>
 /// Обработчик команды удаления страны производителя
 /// </summary>
-public class DeleteCountryCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteCountryCommand>
+public class DeleteCountryCommandHandler(IUnitOfWorkCarApi unitOfWork) : IRequestHandler<DeleteCountryCommand>
 {
     public async Task Handle(DeleteCountryCommand request, CancellationToken cancellationToken)
     {

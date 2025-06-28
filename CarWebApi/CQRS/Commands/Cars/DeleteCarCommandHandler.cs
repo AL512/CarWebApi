@@ -9,7 +9,7 @@ namespace CarWebApi.CQRS.Commands.Cars
     /// <summary>
     /// Обработчик команды удаления автомобиля
     /// </summary>
-    public class DeleteCarCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteCarCommand>
+    public class DeleteCarCommandHandler(IUnitOfWorkCarApi unitOfWork) : IRequestHandler<DeleteCarCommand>
     {
        
         public async Task Handle(DeleteCarCommand request, CancellationToken cancellationToken)

@@ -6,7 +6,7 @@ namespace CarWebApi.CQRS.Commands.Countries;
 /// <summary>
 /// Обработчик команды добавления страны производителя
 /// </summary>
-public class CreateCountryCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateCountryCommand, Guid>
+public class CreateCountryCommandHandler(IUnitOfWorkCarApi unitOfWork) : IRequestHandler<CreateCountryCommand, Guid>
 {
     public async Task<Guid> Handle(CreateCountryCommand request,
         CancellationToken cancellationToken)

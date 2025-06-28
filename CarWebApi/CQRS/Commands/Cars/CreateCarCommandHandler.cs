@@ -6,7 +6,7 @@ namespace CarWebApi.CQRS.Commands.Cars;
 /// <summary>
 /// Обработчик команды добавления автомобиля
 /// </summary>
-public class CreateCarCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateCarCommand, Guid>
+public class CreateCarCommandHandler(IUnitOfWorkCarApi unitOfWork) : IRequestHandler<CreateCarCommand, Guid>
 {
     public async Task<Guid> Handle(CreateCarCommand request, CancellationToken cancellationToken)
     {

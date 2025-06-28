@@ -8,7 +8,7 @@ namespace CarWebApi.CQRS.Commands.Brands;
     /// <summary>
     /// Обработчик команды удаления марки автомобиля
     /// </summary>
-    public class DeleteBrandCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteBrandCommand>
+    public class DeleteBrandCommandHandler(IUnitOfWorkCarApi unitOfWork) : IRequestHandler<DeleteBrandCommand>
     {
         public async Task Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
         {

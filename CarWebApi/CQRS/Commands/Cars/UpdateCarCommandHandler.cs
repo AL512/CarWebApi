@@ -7,7 +7,7 @@ namespace CarWebApi.CQRS.Commands.Cars;
 /// <summary>
 /// Обработчик команды изменения автомобиля
 /// </summary>
-public class UpdateCarCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateCarCommand>
+public class UpdateCarCommandHandler(IUnitOfWorkCarApi unitOfWork) : IRequestHandler<UpdateCarCommand>
 {
     public async Task Handle(UpdateCarCommand request, CancellationToken cancellationToken)
     {

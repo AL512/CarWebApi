@@ -3,7 +3,7 @@ using CarWebApi.Repositories.Interfaces;
 
 namespace CarWebApi.CQRS.Commands.Brands
 {
-    public class CreateBrandCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateBrandCommand, Guid>
+    public class CreateBrandCommandHandler(IUnitOfWorkCarApi unitOfWork) : IRequestHandler<CreateBrandCommand, Guid>
     {
         public async Task<Guid> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {

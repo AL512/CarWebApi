@@ -6,7 +6,7 @@ namespace CarWebApi.CQRS.Commands.Countries;
 /// <summary>
 /// Обработчик команды изменения страны производителя
 /// </summary>
-public class UpdateCountryCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateCountryCommand>
+public class UpdateCountryCommandHandler(IUnitOfWorkCarApi unitOfWork) : IRequestHandler<UpdateCountryCommand>
 {
     public async Task Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
     {

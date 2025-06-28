@@ -7,7 +7,7 @@ namespace CarWebApi.CQRS.Commands.Brands;
 /// <summary>
 /// Обработчик команды изменения марки авто
 /// </summary>
-public class UpdateBrandCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateBrandCommand>
+public class UpdateBrandCommandHandler(IUnitOfWorkCarApi unitOfWork) : IRequestHandler<UpdateBrandCommand>
 {
     public async Task Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
     {

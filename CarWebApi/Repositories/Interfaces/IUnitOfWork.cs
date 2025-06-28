@@ -1,6 +1,6 @@
 ﻿namespace CarWebApi.Repositories.Interfaces;
 
-public interface IUnitOfWork<TContext> : IDisposable, IAsyncDisposable
+public interface IUnitOfWork : IDisposable, IAsyncDisposable
 {
     Task<int> CommitAsync(CancellationToken cancellationToken = default);
     Task RollbackAsync(CancellationToken cancellationToken = default);

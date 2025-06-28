@@ -22,7 +22,7 @@ public static class DependencyInjection
         services.AddTransient<ICountryRepository, CountryRepository>();
         services.AddTransient<IBrandRepository, BrandRepository>();
         services.AddTransient<ICarRepository, CarRepository>();
-        services.AddTransient<IUnitOfWork<CarApiDbContext>, UnitOfWork<CarApiDbContext>>();
+        services.AddTransient<IUnitOfWorkCarApi, UnitOfWork<CarApiDbContext>>();
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
