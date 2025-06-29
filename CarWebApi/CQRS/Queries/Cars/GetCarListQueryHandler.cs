@@ -16,10 +16,10 @@ public class GetCarListQueryHandler(IUnitOfWorkCarApi unitOfWork, IMapper mapper
         var repository = unitOfWork.GetRepository<Car>();
         var entityEnumer = await repository.GetAllAsync(cancellationToken);
         
-        var carQuery = await entityEnumer
+        var carQuery = entityEnumer
             .AsQueryable()
             .ProjectTo<CarLookupDto>(mapper.ConfigurationProvider) // Расширение из AutoMapper
-            .ToListAsync(cancellationToken);
+            .ToList();
 
         return new CarList { Cars = carQuery };
     }

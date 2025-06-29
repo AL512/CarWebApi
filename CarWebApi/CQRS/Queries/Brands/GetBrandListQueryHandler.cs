@@ -16,10 +16,10 @@ public class GetBrandListQueryHandler(IUnitOfWorkCarApi unitOfWork, IMapper mapp
         var repository = unitOfWork.GetRepository<Brand>();
         var entityEnumer = await repository.GetAllAsync(cancellationToken);
         
-        var brandQuery = await entityEnumer
+        var brandQuery = entityEnumer
             .AsQueryable()
             .ProjectTo<BrandLookupDto>(mapper.ConfigurationProvider) // Расширение из AutoMapper
-            .ToListAsync(cancellationToken);
+            .ToList();
 
         return new BrandList { Brands = brandQuery };
     }

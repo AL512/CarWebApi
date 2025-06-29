@@ -18,10 +18,10 @@ public class GetCountryListQueryHandler(IUnitOfWorkCarApi unitOfWork, IMapper ma
         var repository = unitOfWork.GetRepository<Country>();
         var countriesEnumer = await repository.GetAllAsync(cancellationToken);
 
-        var countriesList = await countriesEnumer
+        var countriesList = countriesEnumer
             .AsQueryable()
             .ProjectTo<CountryLookupDto>(mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
+            .ToList();
 
         return new CountryList { Countries = countriesList };
     }
