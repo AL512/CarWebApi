@@ -1,9 +1,6 @@
-﻿using System.Linq.Dynamic.Core;
-using CarWebApi.Database;
-using CarWebApi.Extensions;
+﻿using CarWebApi.Extensions;
 using CarWebApi.PageParams;
 using CarWebApi.Repositories.Interfaces;
-using CarWebApi.Repositories.Specifications;
 using CarWebApi.Requests;
 using Microsoft.EntityFrameworkCore;
 
