@@ -6,16 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarWebApi.Database;
 
-public class CarApiDbContext : DbContext
+public class CarApiDbContext(DbContextOptions options) : DbContext(options)
 {
-    public CarApiDbContext(DbContextOptions options) : base(options)
-    {
-    }
-
-    public CarApiDbContext(DbContextOptions<CarApiDbContext> options) : base(options)
-    {
-    }
-
     public DbSet<Country> Countries { get; set; } = null;
     public DbSet<Brand> Brands { get; set; } = null;
     public DbSet<Car> Cars { get; set; } = null;
