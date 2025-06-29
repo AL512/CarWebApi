@@ -15,13 +15,12 @@ builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Регистрируем медиатор
+
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
 
-// Добавляем и конфигурируем автомаппер
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
@@ -32,18 +31,18 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    //Получаем сервис провайдер для разрешения зависимостей
+    
     var serviceProvider = scope.ServiceProvider;
     try
     {
-        //получаем контекст
+    
         var context = serviceProvider.GetRequiredService<CarApiDbContext>();
-        //Инициализируем БД
+    
         DbInitializer.Initialize(context);
     }
     catch (Exception exception)
     {
-        //Log.Fatal(exception, "Ошибка при инициализации приложения");
+        //Log.Fatal(exception, "");
     }
 }
 
