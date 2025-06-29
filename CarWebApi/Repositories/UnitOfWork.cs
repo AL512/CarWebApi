@@ -10,7 +10,8 @@ public class UnitOfWork<TContext>(TContext context, IServiceProvider serviceProv
 
     public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
     {
-        return serviceProvider.GetRequiredService<IGenericRepository<TEntity>>();
+        var repo =  serviceProvider.GetRequiredService<IGenericRepository<TEntity>>();
+        return repo;
     }
 
     public async Task<int> CommitAsync(CancellationToken cancellationToken = default)

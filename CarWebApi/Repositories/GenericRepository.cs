@@ -1,4 +1,5 @@
-﻿using CarWebApi.Extensions;
+﻿using CarWebApi.Database;
+using CarWebApi.Extensions;
 using CarWebApi.PageParams;
 using CarWebApi.Repositories.Interfaces;
 using CarWebApi.Requests;
@@ -10,7 +11,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 {
     protected readonly DbSet<TEntity> _dbSet;
 
-    public GenericRepository(DbContext context)
+    public GenericRepository(CarApiDbContext context)
     {
         _dbSet = context.Set<TEntity>();
     }

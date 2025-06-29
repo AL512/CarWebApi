@@ -20,4 +20,9 @@ public class CarApiDbContext(DbContextOptions options) : DbContext(options)
 
         base.OnModelCreating(builder);
     }
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLazyLoadingProxies();
+    }
 }
