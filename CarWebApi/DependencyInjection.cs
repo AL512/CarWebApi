@@ -11,13 +11,20 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistence(this IServiceCollection
         services, IConfiguration configuration)
     {
-        services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-        services.AddTransient<ICountryRepository, CountryRepository>();
-        services.AddTransient<IBrandRepository, BrandRepository>();
-        services.AddTransient<ICarRepository, CarRepository>();
-        services.AddTransient<IUnitOfWorkCarApi, UnitOfWork<CarApiDbContext>>();
+        var connectionString = configuration["DbConnection"];
+        services.AddDbContext<CarApiDbContext>(options =>
+        {
+            // options.UseSqlServer(connectionString);
+            options.UseSqlite(connectionString);
+        });
+        
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        services.AddScoped<ICountryRepository, CountryRepository>();
+        services.AddScoped<IBrandRepository, BrandRepository>();
+        services.AddScoped<ICarRepository, CarRepository>();
+        services.AddScoped<IUnitOfWorkCarApi, UnitOfWork<CarApiDbContext>>();
 
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
     }

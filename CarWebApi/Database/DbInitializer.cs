@@ -15,8 +15,7 @@ namespace CarWebApi.Database
         /// <param name="context">Контекст БД</param>
         public static void Initialize(CarApiDbContext context)
         {
-            //context.Database.EnsureDeleted();
-            if (context.Database.EnsureCreated())
+            if (!context.Countries.Any())
             {
                 AddData(context);
             }

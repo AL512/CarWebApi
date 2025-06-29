@@ -9,9 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddPersistence(builder.Configuration);
 
-builder.Services.AddDbContext<CarApiDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString(Parameters.DbConnection)));
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -31,7 +28,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = serviceProvider.GetRequiredService<CarApiDbContext>();
-
+        context.Database.Migrate();
         DbInitializer.Initialize(context);
     }
     catch (Exception exception)
@@ -40,7 +37,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
