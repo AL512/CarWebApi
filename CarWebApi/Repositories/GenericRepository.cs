@@ -1,5 +1,10 @@
-﻿using CarWebApi.Database;
+﻿using System.Linq.Dynamic.Core;
+using CarWebApi.Database;
+using CarWebApi.Extensions;
+using CarWebApi.PageParams;
 using CarWebApi.Repositories.Interfaces;
+using CarWebApi.Repositories.Specifications;
+using CarWebApi.Requests;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarWebApi.Repositories;
@@ -22,6 +27,29 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
+    }
+
+    public async Task<PagedRequest<TEntity>> GetPagedAsyn(PaginationParams pagination, SortParams sort,
+        FilterParams<TEntity>? filter,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _dbSet.AsNoTracking().AsQueryable();
+
+        var filtered = query?.Filter(filter);
+        int totalCount = await filtered?.CountAsync(cancellationToken)!;
+
+        var sorted = filtered.Sort(sort);
+        var paginated = sorted.Paginate(pagination);
+
+        var items = await paginated.ToListAsync(cancellationToken);
+
+        return new PagedRequest<TEntity>
+        {
+            Items = items,
+            TotalCount = totalCount,
+            PageNumber = pagination.PageNumber,
+            PageSize = pagination.PageSize
+        };
     }
 
     public virtual async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
@@ -61,5 +89,4 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         var getByIdResult = await GetByIdAsync(id, cancellationToken) != null;
         return getByIdResult;
     }
-    
 }
