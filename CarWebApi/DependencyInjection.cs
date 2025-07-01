@@ -11,13 +11,6 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistence(this IServiceCollection
         services, IConfiguration configuration)
     {
-        var connectionString = configuration["DbConnection"];
-        services.AddDbContext<CarApiDbContext>(options =>
-        {
-            // options.UseSqlServer(connectionString);
-            options.UseSqlite(connectionString);
-        });
-        
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<ICountryRepository, CountryRepository>();
         services.AddScoped<IBrandRepository, BrandRepository>();

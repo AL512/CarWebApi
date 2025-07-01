@@ -13,7 +13,7 @@ public abstract class BaseEntity
     /// <summary>
     /// Дата создания
     /// </summary>
-    public DateTime CreationDate { get; set; } = DateTime.Now;
+    public DateTime CreationDate { get; set; } = DateTime.UtcNow;
 
     /// <summary>
     /// Дата изменения

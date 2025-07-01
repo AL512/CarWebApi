@@ -9,6 +9,15 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+var dbConfig = builder.Configuration.GetSection("DatabaseConfig").Get<DatabaseConfig>();
+
+builder.Services.AddDbContext<CarApiDbContext>(options =>
+{
+    var connectionStr = dbConfig?.PostgreSQLConnection;
+    options.UseNpgsql(connectionStr);
+});
+
 builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
@@ -38,8 +47,12 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = serviceProvider.GetRequiredService<CarApiDbContext>();
-        context.Database.Migrate();
-        DbInitializer.Initialize(context);
+        if (context.Database.IsRelational())
+        {
+            context.Database.Migrate();
+            DbInitializer.Initialize(context);
+        }
+        
     }
     catch (Exception exception)
     {
