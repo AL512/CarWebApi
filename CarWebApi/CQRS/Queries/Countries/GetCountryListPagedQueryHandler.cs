@@ -12,7 +12,7 @@ public class GetCountryListPagedQueryHandler(IUnitOfWorkCarApi unitOfWork, IMapp
         CancellationToken cancellationToken)
     {
         var repository = unitOfWork.GetRepository<Country>();
-        var entitys = await repository.GetPagedAsyn(
+        var entitys = await repository.GetPagedAsync(
             request.Pagination,
             request.Sort,
             request.Filter,

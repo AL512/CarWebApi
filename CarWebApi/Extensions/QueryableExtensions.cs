@@ -15,11 +15,13 @@ public static class QueryableExtensions
     public static IQueryable<TEntity> Sort<TEntity>(this IQueryable<TEntity> query, SortParams sortParams)
     {
         if (string.IsNullOrWhiteSpace(sortParams.SortBy))
+        {
             return query;
+        }
 
         return sortParams.IsAscending
-            ? query.OrderBy($"{sortParams.SortBy} ASC")
-            : query.OrderBy($"{sortParams.SortBy} DESC");
+            ? query.OrderBy(sortParams.SortBy) 
+            : query.OrderBy($"{sortParams.SortBy} DESC"); 
     }
     
     public static IQueryable<TEntity> Filter<TEntity>(this IQueryable<TEntity> query, FilterParams<TEntity>? filter)

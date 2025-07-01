@@ -14,7 +14,7 @@ public class GetBrandListPagedQueryHandler(IUnitOfWorkCarApi unitOfWork, IMapper
     public async Task<PagedRequest<BrandList>> Handle(GetBrandListPagedQuery request, CancellationToken cancellationToken)
     {
         var repository = unitOfWork.GetRepository<Brand>();
-        var entitys = await repository.GetPagedAsyn(
+        var entitys = await repository.GetPagedAsync(
             request.Pagination,
             request.Sort,
             request.Filter,

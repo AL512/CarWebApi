@@ -9,9 +9,9 @@ namespace CarWebApi.CQRS.Queries.Cars;
 /// Обработчик запроса списка автомобиля
 /// </summary>
 public class GetCarListQueryHandler(IUnitOfWorkCarApi unitOfWork, IMapper mapper)
-    : IRequestHandler<GetCarListQuery, CarList>
+    : IRequestHandler<GetCarListQuery, List<CarLookupDto>>
 {
-    public async Task<CarList> Handle(GetCarListQuery request, CancellationToken cancellationToken)
+    public async Task<List<CarLookupDto>> Handle(GetCarListQuery request, CancellationToken cancellationToken)
     {
         var repository = unitOfWork.GetRepository<Car>();
         var entityEnumer = await repository.GetAllAsync(cancellationToken);
@@ -21,6 +21,6 @@ public class GetCarListQueryHandler(IUnitOfWorkCarApi unitOfWork, IMapper mapper
             .ProjectTo<CarLookupDto>(mapper.ConfigurationProvider) // Расширение из AutoMapper
             .ToList();
 
-        return new CarList { Cars = carQuery };
+        return new List<CarLookupDto>(carQuery) ;
     }
 }

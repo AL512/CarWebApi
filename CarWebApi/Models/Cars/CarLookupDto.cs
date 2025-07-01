@@ -19,7 +19,7 @@ namespace CarWebApi.Models.Cars
         /// Маппинг
         /// </summary>
         /// <param name="profile">Профиль маппинга</param>
-        public void Mapping(Profile profile)
+        public virtual void Mapping(Profile profile)
         {
             profile.CreateMap<Car, CarLookupDto>()
                 .ForMember(carDto => carDto.Id, opt => opt.MapFrom(car => car.Id))

@@ -27,7 +27,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
     }
 
-    public async Task<PagedRequest<TEntity>> GetPagedAsyn(PaginationParams pagination, SortParams sort,
+    public async Task<PagedRequest<TEntity>> GetPagedAsync(PaginationParams pagination, SortParams sort,
         FilterParams<TEntity>? filter,
         CancellationToken cancellationToken = default)
     {

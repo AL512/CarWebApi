@@ -3,6 +3,8 @@ using CarWebApi.Database;
 using CarWebApi.Mappings;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,15 @@ builder.Services.AddControllers();
 builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.IgnoreObsoleteActions();
+    c.MapType<TimeSpan>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Example = new OpenApiString("00:00:00")
+    });
+});
 
 builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(Program).Assembly); });
 

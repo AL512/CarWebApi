@@ -6,23 +6,33 @@ using CarWebApi.Requests;
 namespace CarWebApi.CQRS.Queries.Cars;
 
 public class GetCarListPagedQueryHandler(IUnitOfWorkCarApi unitOfWork, IMapper mapper)
-    : IRequestHandler<GetCarListPagedQuery, PagedRequest<CarList>>
+    : IRequestHandler<GetCarListPagedQuery, PagedRequest<CarLookupDto>>
 {
-    public async Task<PagedRequest<CarList>> Handle(GetCarListPagedQuery request,
+    public async Task<PagedRequest<CarLookupDto>> Handle(GetCarListPagedQuery request,
         CancellationToken cancellationToken)
     {
         var repository = unitOfWork.GetRepository<Car>();
-        var entitys = await repository.GetPagedAsyn(
+        var pagedResult  = await repository.GetPagedAsync(
             request.Pagination,
             request.Sort,
             request.Filter,
             cancellationToken);
 
-        if (entitys == null)
+        if (pagedResult == null || pagedResult.Items == null)
         {
-            throw new NotFoundException(nameof(CarList), "CarList");
+            throw new NotFoundException(nameof(PagedRequest<CarLookupDto>), "No cars found");
         }
-
-        return mapper.Map<PagedRequest<CarList>>(entitys);
+        
+        var dtos = mapper.Map<List<CarLookupDto>>(pagedResult.Items);
+        
+        var result = new PagedRequest<CarLookupDto>
+        {
+            Items = dtos,
+            TotalCount = pagedResult.TotalCount,
+            PageNumber = request.Pagination.PageNumber,
+            PageSize = request.Pagination.PageSize
+        };
+        
+        return result;
     }
 }

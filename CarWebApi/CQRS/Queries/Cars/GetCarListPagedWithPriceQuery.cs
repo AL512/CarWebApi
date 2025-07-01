@@ -4,7 +4,8 @@ using CarWebApi.Requests;
 
 namespace CarWebApi.CQRS.Queries.Cars;
 
-public record GetCarListPagedQuery(
+public record GetCarListPagedWithPriceQuery(
     CarFilterParams? Filter = null,
     SortParams? Sort = null,
-    PaginationParams? Pagination = null) : IRequest<PagedRequest<CarLookupDto>>;
+    PaginationParams? Pagination = null) : IRequest<PagedRequest<CarLookupWithPriceDto>>;
+    

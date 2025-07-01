@@ -11,7 +11,7 @@ namespace CarWebApi.Repositories.Interfaces;
     {
         Task<TEntity?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default) where TId : notnull;
         Task<IReadOnlyList<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
-        Task<PagedRequest<TEntity>> GetPagedAsyn(
+        Task<PagedRequest<TEntity>> GetPagedAsync(
             PaginationParams pagination,
             SortParams sort,
             FilterParams<TEntity>? filter,
