@@ -1,0 +1,85 @@
+{
+  "version": 3,
+  "warnings": [
+    {
+      "code": "V3163",
+      "cwe": 1069,
+      "level": 3,
+      "positions": [
+        {
+          "file": "H:\\GitRepos\\CarWebApi\\CarWebApi\\Program.cs",
+          "line": 60,
+          "endLine": 60,
+          "column": 1,
+          "endColumn": 1,
+          "navigation": {
+            "previousLine": 125,
+            "currentLine": 1149485441,
+            "nextLine": 123,
+            "columns": 0
+          }
+        }
+      ],
+      "message": "An empty exception handler. Silent suppression of exceptions may hide the presence of bugs or vulnerabilities.",
+      "projects": [
+        "CarWebApi"
+      ],
+      "favorite": false,
+      "falseAlarm": false
+    },
+    {
+      "code": "V5621",
+      "cwe": 535,
+      "sastId": "OWASP-8.3.5",
+      "level": 2,
+      "positions": [
+        {
+          "file": "H:\\GitRepos\\CarWebApi\\CarWebApi\\CQRS\\Commands\\Countries\\UpdateCountryCommandHandler.cs",
+          "line": 27,
+          "endLine": 27,
+          "column": 1,
+          "endColumn": 1,
+          "navigation": {
+            "previousLine": 123,
+            "currentLine": 106200685,
+            "nextLine": 2809,
+            "columns": 0
+          }
+        }
+      ],
+      "message": "Error message contains potentially sensitive data, in \u0027e\u0027, that may be exposed.",
+      "projects": [
+        "CarWebApi"
+      ],
+      "favorite": false,
+      "falseAlarm": false
+    },
+    {
+      "code": "V5606",
+      "cwe": 1069,
+      "sastId": "OWASP-7.4.2",
+      "level": 3,
+      "positions": [
+        {
+          "file": "H:\\GitRepos\\CarWebApi\\CarWebApi\\Program.cs",
+          "line": 60,
+          "endLine": 60,
+          "column": 1,
+          "endColumn": 1,
+          "navigation": {
+            "previousLine": 125,
+            "currentLine": 1149485441,
+            "nextLine": 123,
+            "columns": 0
+          }
+        }
+      ],
+      "message": "An empty exception handler. Silent suppression of exceptions may hide the presence of bugs or vulnerabilities.",
+      "projects": [
+        "CarWebApi"
+      ],
+      "favorite": false,
+      "falseAlarm": false
+    }
+  ]
+}
