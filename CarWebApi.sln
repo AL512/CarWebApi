@@ -5,8 +5,6 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWebApi", "CarWebApi\CarWebApi.csproj", "{8CC2AD42-A1BE-4326-A024-2B234A508DD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarWebApi.Test", "CarWebApi.Test\CarWebApi.Test.csproj", "{A8F77546-9E1A-4738-A47A-9906AB936B0A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3935521C-F06E-414A-B140-5DC7CD4F042C}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
@@ -26,10 +24,6 @@ Global
 		{8CC2AD42-A1BE-4326-A024-2B234A508DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CC2AD42-A1BE-4326-A024-2B234A508DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CC2AD42-A1BE-4326-A024-2B234A508DD8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8F77546-9E1A-4738-A47A-9906AB936B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8F77546-9E1A-4738-A47A-9906AB936B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8F77546-9E1A-4738-A47A-9906AB936B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8F77546-9E1A-4738-A47A-9906AB936B0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
