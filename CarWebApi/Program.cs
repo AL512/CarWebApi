@@ -56,7 +56,7 @@ public static class Program
                 {
                     Title = "CarWebApi API",
                     Version = "v1",
-                    Description = "API для управления каталогом автомодибей",
+                    Description = "API для управления каталогом автомобилей",
                     Contact = new OpenApiContact { Name = "Александр Б.", Email = "AL512@mail.ru" },
                     License = new OpenApiLicense { Name = "MIT License" }
                 });
