@@ -43,14 +43,27 @@ public static class Program
             builder.Services.AddPersistence(builder.Configuration);
 
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(c =>
+            builder.Services.AddSwaggerGen(options =>
             {
-                c.IgnoreObsoleteActions();
-                c.MapType<TimeSpan>(() => new OpenApiSchema
+                options.IgnoreObsoleteActions();
+                options.MapType<TimeSpan>(() => new OpenApiSchema
                 {
                     Type = "string",
                     Example = new OpenApiString("00:00:00")
                 });
+                
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "CarWebApi API",
+                    Version = "v1",
+                    Description = "API для управления каталогом автомодибей",
+                    Contact = new OpenApiContact { Name = "Александр Б.", Email = "AL512@mail.ru" },
+                    License = new OpenApiLicense { Name = "MIT License" }
+                });
+                
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
             });
 
             builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(Program).Assembly); });
