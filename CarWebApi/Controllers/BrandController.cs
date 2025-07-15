@@ -8,6 +8,8 @@ namespace CarWebApi.Controllers;
 /// <summary>
 /// Контроллер для работы с марками автомобилей
 /// </summary>
+[ApiController]
+[Route("api/[controller]")]
 public class BrandController(IMapper mapper, ILogger<BrandController> logger) : ControllerMediator
 {
     /// <summary>

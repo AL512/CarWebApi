@@ -13,6 +13,7 @@ namespace CarWebApi.Controllers;
 /// Контроллер для работы с автомобилями
 /// </summary>
 [ApiController]
+[Route("api/[controller]")]
 // [ApiExplorerSettings(GroupName = "Car")]
 public class CarController(IMapper mapper, ILogger<CarController> logger) : ControllerMediator
 {

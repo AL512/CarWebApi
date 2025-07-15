@@ -9,6 +9,8 @@ namespace CarWebApi.Controllers;
 /// <summary>
 /// Контроллер для работы со странами производителям автомобилей
 /// </summary>
+[ApiController]
+[Route("api/[controller]")]
 public class CountriesController(IMapper mapper, ILogger<BrandController> logger) : ControllerMediator
 {
     /// <summary>
