@@ -23,6 +23,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NLog" />
+    <PackageReference Include="NLog.Targets.AtomicFile" />
+    <PackageReference Include="NLog.Targets.ElasticSearch" />
+    <PackageReference Include="NLog.Web.AspNetCore" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="System.Linq.Dynamic.Core" />
@@ -35,6 +39,12 @@
   <ItemGroup>
     <Content Include="..\.dockerignore">
       <Link>.dockerignore</Link>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

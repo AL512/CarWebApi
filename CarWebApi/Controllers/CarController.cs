@@ -14,7 +14,7 @@ namespace CarWebApi.Controllers;
 /// </summary>
 [ApiController]
 // [ApiExplorerSettings(GroupName = "Car")]
-public class CarController(IMapper mapper) : ControllerMediator
+public class CarController(IMapper mapper, ILogger<CarController> logger) : ControllerMediator
 {
     /// <summary>
     /// Получить список автомобилей
@@ -27,33 +27,64 @@ public class CarController(IMapper mapper) : ControllerMediator
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<CarList>> Get()
     {
+        logger.LogInformation($"{nameof(Get)} is called");
         var query = new GetCarListQuery
             { };
-        var vm = await Mediator.Send(query);
-        return Ok(vm);
+        try
+        {
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"{nameof(Get)} {ex.Message}");
+            return Problem(ex.Message);
+        }
     }
 
+    /// <summary>
+    /// Получить список автомобилей с фильтром по мощности двигателя
+    /// </summary>
+    /// <returns>Список автомобилей с фильтром по мощности двигателя</returns>
+    /// <response code="200">Success</response>
+    /// <response code="401">если пользователь не авторизован</response>
     [HttpPost("powerQuery")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<PagedRequest<CarLookupWithPowerDto>>> GetWithPower(GetWithPowerQuery powerQuery)
     {
+        logger.LogInformation($"{nameof(GetWithPower)} is called");
+
         var query = new GetCarListPagedWithPowerQuery()
         {
             Filter = new CarFilterParams().WithPower(powerQuery.minPower, powerQuery.maxPower),
             Pagination = powerQuery.paginationParams,
             Sort = new SortParams() { SortBy = powerQuery.sort }
         };
-
-        var vm = await Mediator.Send(query);
-        return Ok(vm);
+        try
+        {
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"{nameof(GetWithPower)} {ex.Message}");
+            return Problem(ex.Message);
+        }
     }
 
+    /// <summary>
+    /// Получить список автомобилей с фильтром по стоимости
+    /// </summary>
+    /// <returns>Список автомобилей с фильтром по стоимости</returns>
+    /// <response code="200">Success</response>
+    /// <response code="401">если пользователь не авторизован</response>
     [HttpPost("priceQuery")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<PagedRequest<CarLookupWithPriceDto>>> GetWithPrice(GetWithPriceQuery priceQuery)
     {
+        logger.LogInformation($"{nameof(GetWithPrice)} is called");
         var query = new GetCarListPagedWithPriceQuery()
         {
             Filter = new CarFilterParams().WithPrice(priceQuery.minPrice, priceQuery.maxPrice),
@@ -61,16 +92,31 @@ public class CarController(IMapper mapper) : ControllerMediator
             Sort = new SortParams() { SortBy = priceQuery.sort }
         };
 
-        var vm = await Mediator.Send(query);
-        return Ok(vm);
+        try
+        {
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"{nameof(GetWithPrice)} {ex.Message}");
+            return Problem(ex.Message);
+        }
     }
 
+    /// <summary>
+    /// Получить список автомобилей с фильтром по стоимости и мощности двигателя
+    /// </summary>
+    /// <returns>Список автомобилей с фильтром по стоимости и мощности двигателя</returns>
+    /// <response code="200">Success</response>
+    /// <response code="401">если пользователь не авторизован</response>
     [HttpPost("detailsQuery")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<PagedRequest<CarLookupWithDetailsDto>>> GetWithDetails(
         GetWithDetailsQuery detailsQuery)
     {
+        logger.LogInformation($"{nameof(GetWithDetails)} is called");
         var query = new GetCarListPagedWithDetailsQuery()
         {
             Filter = new CarFilterParams().WithCustomFilter(car =>
@@ -83,8 +129,16 @@ public class CarController(IMapper mapper) : ControllerMediator
             Sort = new SortParams() { SortBy = detailsQuery.sort }
         };
 
-        var vm = await Mediator.Send(query);
-        return Ok(vm);
+        try
+        {
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"{nameof(GetWithDetails)} {ex.Message}");
+            return Problem(ex.Message);
+        }
     }
 
     /// <summary>
@@ -99,12 +153,22 @@ public class CarController(IMapper mapper) : ControllerMediator
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<CarDetails>> Get(Guid id)
     {
+        logger.LogInformation($"{nameof(Get)} is called. ID: {id}");
         var query = new GetCarDetailsQuery
         {
             Id = id
         };
-        var vm = await Mediator.Send(query);
-        return Ok(vm);
+
+        try
+        {
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"{nameof(Get)} {ex.Message}");
+            return Problem(ex.Message);
+        }
     }
 
     /// <summary>
@@ -119,11 +183,21 @@ public class CarController(IMapper mapper) : ControllerMediator
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<Guid>> Create([FromBody] CreateCarDto createCarDto)
     {
-        var command = mapper.Map<CreateCarCommand>(createCarDto);
-        var carId = await Mediator.Send(command);
-        return Ok(carId);
+        logger.LogInformation($"{nameof(Create)} is called");
+        
+        try
+        {
+            var command = mapper.Map<CreateCarCommand>(createCarDto);
+            var carId = await Mediator.Send(command);
+            return Ok(carId);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"{nameof(Create)} {ex.Message}");
+            return Problem(ex.Message);
+        }
     }
-
+    
     /// <summary>
     /// Обновить автомобиль
     /// </summary>
@@ -136,11 +210,21 @@ public class CarController(IMapper mapper) : ControllerMediator
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Update([FromBody] UpdateCarDto updateCarDto)
     {
-        var command = mapper.Map<UpdateCarCommand>(updateCarDto);
-        await Mediator.Send(command);
-        return NoContent();
-    }
+        logger.LogInformation($"{nameof(Update)} is called. ID: {updateCarDto.Id}");
 
+        try
+        {
+            var command = mapper.Map<UpdateCarCommand>(updateCarDto);
+            await Mediator.Send(command);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"{nameof(Update)} {ex.Message}");
+            return Problem(ex.Message);
+        }
+    }
+    
     /// <summary>
     /// Удалить автомобиль
     /// </summary>
@@ -153,11 +237,21 @@ public class CarController(IMapper mapper) : ControllerMediator
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Delete(Guid id)
     {
+        logger.LogInformation($"{nameof(Delete)} is called. ID: {id}");
         var command = new DeleteCarCommand
         {
             Id = id
         };
-        await Mediator.Send(command);
-        return NoContent();
+
+        try
+        {
+            await Mediator.Send(command);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"{nameof(Delete)} {ex.Message}");
+            return Problem(ex.Message);
+        }
     }
 }
